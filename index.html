@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Actions Workflow Viewer</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #f0f6fc;
+    }
+    header p {
+      margin-top: 8px;
+      color: #8b949e;
+      font-size: 0.95rem;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 780px;
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 20px;
+      background: #1c2128;
+      border-bottom: 1px solid #30363d;
+      font-size: 0.85rem;
+      color: #8b949e;
+    }
+    .dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+    }
+    .dot.red   { background: #ff5f57; }
+    .dot.yellow{ background: #febc2e; }
+    .dot.green { background: #28c840; }
+    .filename {
+      margin-left: 4px;
+      color: #c9d1d9;
+      font-weight: 600;
+    }
+    pre {
+      padding: 24px 28px;
+      overflow-x: auto;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.875rem;
+      line-height: 1.65;
+      color: #e6edf3;
+      white-space: pre;
+    }
+    .keyword  { color: #ff7b72; }
+    .string   { color: #a5d6ff; }
+    .comment  { color: #8b949e; font-style: italic; }
+    .key      { color: #7ee787; }
+    .value    { color: #f2cc60; }
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 28px;
+    }
+    .badge {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+    .badge span { color: #58a6ff; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GitHub Actions Workflow</h1>
+    <p>.github/workflows/main.yml &mdash; Updated for 2026</p>
+  </header>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <span class="filename">main.yml</span>
+    </div>
+    <pre id="code">Loading...</pre>
+  </div>
+
+  <div class="badge-row">
+    <div class="badge">Runner: <span>windows-latest</span></div>
+    <div class="badge">Timeout: <span>60 min</span></div>
+    <div class="badge">Tunnel: <span>ngrok TCP 3389</span></div>
+    <div class="badge">Install: <span>Chocolatey</span></div>
+  </div>
+
+  <script>
+    fetch('/workflow')
+      .then(r => r.text())
+      .then(text => {
+        document.getElementById('code').textContent = text;
+      })
+      .catch(() => {
+        document.getElementById('code').textContent = 'Could not load workflow file.';
+      });
+  </script>
+</body>
+</html>
